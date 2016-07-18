@@ -1,0 +1,149 @@
+/*
+Source Name:	Project3Driver.java
+Problem:	Project 3
+Date Written:	07/17/2016
+Written By:	Jennifer Losty
+*/
+
+import java.io.*;
+
+class Project3Driver
+{
+	public static void main(string args[]) throws IO Exception
+	{
+		Project3 app;
+		app = new Project3();
+		app.appMain();
+	}
+}  // end of class Project3Driver
+
+class Project3
+{
+	BufferedReader stdin;
+		int custNr, taxRt;
+		String date;
+		int code, qty, count, largestCode;
+		float uPrice, extPrice, disc, totalDisc, totalNet, totalNet, cumQty, avgQtySold, tax, largestNet, totalTax;
+
+	public void appMain() throws IOException
+	{
+			initReport();
+			displayHeader();
+			getCustDateTax();
+			getCode();
+			
+			while (code != 0)
+			{
+				processItem();
+			}
+			
+			calcAvg();
+			displaySummary();
+	}
+
+	void initReport()
+	{
+		stdin = new BufferedReader(new InputStreamReader(System.in));
+		totalDisc = 0;
+		totalNet = 0;
+		count = 0;
+		largestNet = 0;
+		totalTax = 0;
+	}
+
+	void displayHeader()
+	{
+		System.out.println("\n************************************");
+		System.out.println("Solution for Project 3");
+		System.out.println("By Jennifer Losty");
+		System.out.println("*************************************\n");
+	}
+
+	void getCustDateTax() throws IOException
+	{
+		System.out.print("Enter the Customer Number: ");
+		custNr = stdin.readLine();
+		System.out.print("Enter the Date: ");
+		date = stdin.readLine();
+		System.out.print("Enter the Tax Rate: ");
+		taxRt = stdin.readLine();
+	}
+
+	void getCode() throws IOException
+	{
+		System.out.print("Enter the Item Code: ");
+		code = Integer.parseInt(stdin.readLine());
+
+	void processItem() throws IOException
+	{
+		getDetails();
+		calcTotals();
+		updateLargest();
+		displayItemInv();
+		getCode();
+	}
+
+	void getDetails() throws IOException
+	{
+		System.out.print("Enter the Item Code: ");
+		code = Integer.parseInt(stdin.readLine());
+		System.out.print("Enter the Quantity: ");
+		qty = Integer.parseInt(stdin.readLine());
+		System.out.print("Enter the Price per Unit: ");
+		uPrice = Float.parseFloat(stdin.readLine());
+	}
+
+	void calcTotals()
+	{
+		extPrice = uPrice * qty;
+		if (extPrice > 400)
+		{
+			disc = (extPrice - 400) * 0.1;
+		}
+		totalDisc = totalDisc + disc;
+		netPrice = extPrice - disc;
+		totalNet = totalNet + netPrice;
+		count = count + 1;
+		cumQty = cumQty + qty;
+		tax = netPrice * taxRt;
+		totalTax = totalTax + tax;
+	}
+
+	void updateLargest()
+	{
+		if (netPrice > largestNet)
+		{
+			largestNet = netPrice
+			largestCode = code
+		}
+	}
+
+	void displayItemInv()
+	{
+		System.out.println("\n******************** Invoice by Item ********************");
+		System.out.println("Item Code: " + code);
+		System.out.println("Quantity: " + qty);
+		System.out.println("Unit Price: " + uPrice);
+		System.out.println("********************************************************\n\n");
+	}
+
+	void calcAvg()
+	{
+		avgQtySold = cumQty / count
+	}
+
+	void displaySummary()
+	{
+		System.out.println("\n\n");
+		System.out.println("******************** TYKES Invoice Summary ********************");
+		System.out.println("Customer Number: " + custNr);
+		System.out.println("Date: " + date);
+		System.out.println("Tax Rate: " + tax);
+		System.out.println("Total Discounts: " + totalDisc);
+		System.out.println("Total Net Purchases: " + totalNet);
+		System.out.println("Average Quantity Sold: " + avgQtySold);
+		System.out.println("Total Tax on Items: " + totalTax);
+		System.out.println("Largest Purchase: " + largestNet);
+		System.out.println("Item Code for Largest Purchase: " + largestCode);
+	}
+}  // end of class Project3
